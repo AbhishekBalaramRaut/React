@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import  {updateObject} from './../utility';
+import  {updateObject} from '../../shared/utility';
 
 const INITIAL_STATE = {
     ingredients: {
@@ -9,7 +9,8 @@ const INITIAL_STATE = {
         bacon: 0
     },
     totalPrice: 0,
-    error: false
+    error: false,
+    building: false
 }; 
 
 const INGREDIENT_PRICES = {
@@ -26,7 +27,8 @@ const builderReducer = (state = INITIAL_STATE , action) => {
             const updatedIngredients = updateObject(state.ingredients,updatedIngredient);
             const updatedState = {
                 ingredients: updatedIngredients,
-                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+                building: true
             }
             return updateObject(state,updatedState);
             
@@ -39,7 +41,8 @@ const builderReducer = (state = INITIAL_STATE , action) => {
             const updatedIngs = updateObject(state.ingredients,updatedIng);
             const changedState = {
                 ingredients: updatedIngs,
-                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+                building: true
             }
             return updateObject(state,changedState);
   
@@ -52,11 +55,12 @@ const builderReducer = (state = INITIAL_STATE , action) => {
                     meat: action.ingredients.meat,
                 },
                 totalPrice:0,
-                error:false
+                error:false,
+                building: false
             });
      
         case actionTypes.LOAD_INGREDIENTS_FAILED : 
-            return updateObject(state, {error:true});
+            return updateObject(state, {error:true,building: false});
         default:
             return state;
     }

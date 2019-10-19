@@ -1,10 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
-import {updateObject} from './../utility';
+import {updateObject} from '../../shared/utility';
 
 const INITIAL_STATE = {
     orders: [], 
     loading: false,
-    purchased: false
+    purchased: false,
+    error: null
 }; 
 
 const INGREDIENT_PRICES = {
@@ -35,13 +36,14 @@ const orderReducer = (state = INITIAL_STATE , action) => {
         case actionTypes.ORDER_FETCH_SUCCESS:
             return updateObject(state, {
                 loading:false,
-                orders: action.orders});
+                orders: action.orders,
+                error: null});
   
         case actionTypes.ORDER_FETCH_FAILED:
-            return updateObject(state, {loading: false});
+            return updateObject(state, {error: action.error, loading: false});
   
         case actionTypes.ORDER_FETCH_START : 
-            return updateObject(state, {loading: true});
+            return updateObject(state, {loading: true,error: null});
         default:
             return state;
     }

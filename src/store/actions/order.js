@@ -23,10 +23,11 @@ export const purchaseBurgerInit = () => {
     }
 }
 
-export const purchaseBurgerStart = (orderData) => {
+export const purchaseBurgerStart = (orderData,token) => {
     return dispatch => {
         dispatch(purchaseBurgerInit());
-        axios.post('/orders.json',orderData)
+        //?auth='+token
+        axios.post('/orders.json?auth='+token,orderData)
         .then(response =>  {
         dispatch(purchaseBurgerSuccess(response.data.name, orderData));
            })
@@ -58,10 +59,19 @@ export const orderFetchSuccess = (orders) => {
     }
 }
 
-export const ordersFetch = () => {
+export const ordersFetch = (token,userId) => {
     return dispatch => {
+        // if(!token) {
+            
+        //     dispatch(orderFetchFailed("Your session has expired"));
+        // } else {
+         
+        
         dispatch(orderFetchStart());
-        axios.get('/orders.json')
+        //?auth='+token
+        //axios.get('/orders.json/4.json')
+        let queryParams = '?auth='+token+'&orderBy="userId"&equalTo="'+userId+'"';
+        axios.get('/orders.json'+queryParams)
         .then(res  => {
             const fetchedOrders = [];
             for(let key in res.data) {
@@ -72,8 +82,10 @@ export const ordersFetch = () => {
             dispatch(orderFetchSuccess(fetchedOrders));
         })
         .catch(error => {
-            dispatch(orderFetchFailed(error));
+            dispatch(orderFetchFailed(error.response.data.error));
         });
+
+       // }
     }
         
 }

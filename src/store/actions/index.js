@@ -8,4 +8,6 @@ export {
     ordersFetch
 } from './order';
 
-export  {authInit} from './auth';
+export  {authInit, logout,
+    setAuthRedirectPath,
+    authStateCheck} from './auth';
