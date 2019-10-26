@@ -10,7 +10,7 @@ import withErrorHandler from './../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/index';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 
     state = {
         purchasing: false,
@@ -179,4 +179,8 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
+//Enable below statement when running the app
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+
+// Enable below statement when jest test
+//export default BurgerBuilder;

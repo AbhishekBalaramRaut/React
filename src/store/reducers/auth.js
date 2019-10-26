@@ -5,7 +5,7 @@ const INITIAL_STATE = {
    token: null,
    userId: null,
    error: null,
-   loading: null,
+   loading: false,
    authRedirectPath: '/'
 }; 
 
